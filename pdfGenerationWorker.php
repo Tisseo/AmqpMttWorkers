@@ -15,7 +15,7 @@ use CanalTP\MediaManagerBundle\DataCollector\MediaDataCollector;
 use CanalTP\MttBundle\Services\CurlProxy;
 
 //AmqpMttWorkers
-use CanalTP\AMQPMttWorkers\TimetableMedia;
+use CanalTP\AMQPMttWorkers\TimetableMediaBuilder;
 
 $curlProxy = new CurlProxy();
 $pdfHashingLib = new PdfHashingLib($curlProxy);
@@ -28,7 +28,7 @@ $channel->exchange_declare('pdf_gen_exchange', 'topic', false, true, false);
 list($queue_name, ,) = $channel->queue_declare("pdf_gen_queue", false, true, false, false);
 $channel->queue_bind($queue_name, 'pdf_gen_exchange', "*.pdf_gen");
 
-$ttMediaBuilder = new TimetableMedia();
+$ttMediaBuilder = new TimetableMediaBuilder();
 
 $process_message = function($msg) use ($curlProxy, $pdfHashingLib, $ttMediaBuilder)
 {

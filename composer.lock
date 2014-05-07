@@ -132,7 +132,7 @@
             "source": {
                 "type": "git",
                 "url": "http://hg.prod.canaltp.fr/ctp/SymfonyBundles/CanalTPMttBundle.git",
-                "reference": "03ea67cd7e844aeec0db36f458ad459214108dd9"
+                "reference": "edae473e2449bbd8a7ef53a60391ec50a5e9aff5"
             },
             "require": {
                 "braincrafted/bootstrap-bundle": "2.0.0",
@@ -172,7 +172,7 @@
             ],
             "description": "Mtt Bundle",
             "homepage": "http://hg.prod.canaltp.fr/ctp/SymfonyBundles/CanalTPMttBundle/summary",
-            "time": "2014-05-06 13:24:09"
+            "time": "2014-05-07 07:23:03"
         },
         {
             "name": "canaltp/navitia",
