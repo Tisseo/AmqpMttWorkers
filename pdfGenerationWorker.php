@@ -56,15 +56,31 @@ $process_message = function($msg) use ($curlProxy, $pdfHashingLib, $ttMediaBuild
         echo "\n--------\n";
     }
     
-    //acknowledgement
-    // if ($msg->body == 'good') {
-        $msg->delivery_info['channel']->
-            basic_ack($msg->delivery_info['delivery_tag']);
-    // } else {
-        // $msg->delivery_info['channel']->
-            // basic_nack($msg->delivery_info['delivery_tag']);
-    // }
-    sleep(10);
+    // acknowledgement part
+    // push ack data into expected queue
+    if (isset($filepath)) {
+        $payload->generated = true;
+        $payload->generationResult = new \stdClass;
+        $payload->generationResult->filepath = $filepath;
+        $payload->generationResult->pdfHash = $hash;
+        $payload->generationResult->created = time();
+    } else {
+        $payload->generated = false;
+    }
+    $ackMsg = new AMQPMessage(
+        json_encode($payload),
+        array(
+            'delivery_mode' => 2,
+            'content_type'  => 'application/json'
+        )
+    );
+    $msg->delivery_info['channel']->basic_publish($ackMsg, 'pdf_gen_exchange', $msg->get('reply_to'), true);
+    echo " [x] Sent ",$msg->get('reply_to'),':',print_r($payload, true)," \n";
+    echo "\n--------\n";
+    // acknowledge broker
+    $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
+
+    // sleep(10);
 };
 $channel->basic_qos(null, 1, null);
 $channel->basic_consume($queue_name, 'pdfWorker', false, false, false, false, $process_message);

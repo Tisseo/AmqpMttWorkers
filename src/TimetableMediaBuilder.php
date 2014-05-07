@@ -8,7 +8,7 @@ use CanalTP\MediaManager\Media\Factory\MediaFactory;
 use CanalTP\MediaManager\Category\CategoryType;
 use CanalTP\MediaManager\Category\Factory\CategoryFactory;
 //Mtt Bundle
-use CanalTP\MttBundle\Services\MediaManager;
+use CanalTP\MttBundle\Services\MediaManager as MttMediaManager;
 
 class TimetableMediaBuilder {
     
@@ -18,7 +18,7 @@ class TimetableMediaBuilder {
     
     public function __construct()
     {
-        // TODO: retrieve this from yaml configuration inside Mtt (now it's in SamApp...)
+        // TODO: retrieve this from yaml configuration inside Mtt (right now it's in SamApp...)
         $this->config = array(
             'name' => 'MTT',
             'storage' => array(
@@ -65,8 +65,8 @@ class TimetableMediaBuilder {
     {
         $category = $this->getCategory($externalNetworkId, $externalRouteId, $externalStopPointId, $seasonId);
         $media = $this->mediaFactory->create($filePath);
-        $media->setFileName(MediaManager::TIMETABLE_FILENAME);
-        $media->setBaseName(MediaManager::TIMETABLE_FILENAME . '.pdf');
+        $media->setFileName(MttMediaManager::TIMETABLE_FILENAME);
+        $media->setBaseName(MttMediaManager::TIMETABLE_FILENAME . '.pdf.bak');
         $media->setSize(filesize($filePath));
         $media->setPath($filePath);
         $media->setCompany($this->company);
