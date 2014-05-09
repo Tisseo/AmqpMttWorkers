@@ -74,6 +74,7 @@ $process_message = function($msg) use ($curlProxy, $pdfHashingLib, $ttMediaBuild
             'content_type'  => 'application/json'
         )
     );
+    // publish to ack queue
     $msg->delivery_info['channel']->basic_publish($ackMsg, 'pdf_gen_exchange', $msg->get('reply_to'), true);
     echo " [x] Sent ",$msg->get('reply_to'),':',print_r($payload, true)," \n";
     echo "\n--------\n";
