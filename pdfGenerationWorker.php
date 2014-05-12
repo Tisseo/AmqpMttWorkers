@@ -7,12 +7,13 @@ include(__DIR__ . '/config.inc.php');
 use PhpAmqpLib\Connection\AMQPConnection;
 use PhpAmqpLib\Message\AMQPMessage;
 
+use CanalTP\MediaManagerBundle\DataCollector\MediaDataCollector;
 // MTTBundle
 use CanalTP\MttBundle\Services\PdfHashingLib;
 use CanalTP\MttBundle\Services\PdfGenerator;
 use CanalTP\MttBundle\Services\MediaManager;
-use CanalTP\MediaManagerBundle\DataCollector\MediaDataCollector;
 use CanalTP\MttBundle\Services\CurlProxy;
+use CanalTP\MttBundle\Services\AmqpPdfGenPublisher;
 
 //AmqpMttWorkers
 use CanalTP\AMQPMttWorkers\TimetableMediaBuilder;
@@ -23,10 +24,10 @@ $pdfHashingLib = new PdfHashingLib($curlProxy);
 $connection = new AMQPConnection(HOST, PORT, USER, PASS, VHOST);
 $channel = $connection->channel();
 
-$channel->exchange_declare('pdf_gen_exchange', 'topic', false, true, false);
+$channel->exchange_declare(AmqpPdfGenPublisher::EXCHANGE_NAME, 'topic', false, true, false);
 
-list($queue_name, ,) = $channel->queue_declare("pdf_gen_queue", false, true, false, false);
-$channel->queue_bind($queue_name, 'pdf_gen_exchange', "*.pdf_gen");
+list($queue_name, ,) = $channel->queue_declare(AmqpPdfGenPublisher::WORK_QUEUE_NAME, false, true, false, false);
+$channel->queue_bind($queue_name, AmqpPdfGenPublisher::EXCHANGE_NAME, "*.pdf_gen");
 
 $ttMediaBuilder = new TimetableMediaBuilder();
 
@@ -75,7 +76,7 @@ $process_message = function($msg) use ($curlProxy, $pdfHashingLib, $ttMediaBuild
         )
     );
     // publish to ack queue
-    $msg->delivery_info['channel']->basic_publish($ackMsg, 'pdf_gen_exchange', $msg->get('reply_to'), true);
+    $msg->delivery_info['channel']->basic_publish($ackMsg, AmqpPdfGenPublisher::EXCHANGE_NAME, $msg->get('reply_to'), true);
     echo " [x] Sent ",$msg->get('reply_to'),':',print_r($payload, true)," \n";
     echo "\n--------\n";
     // acknowledge broker
