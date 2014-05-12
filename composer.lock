@@ -3,7 +3,7 @@
         "This file locks the dependencies of your project to a known state",
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file"
     ],
-    "hash": "a4a30ca05b447e78b09e3d39fc92b8a6",
+    "hash": "452047e93973167ef8ee16e262026558",
     "packages": [
         {
             "name": "braincrafted/bootstrap-bundle",
@@ -68,11 +68,11 @@
         },
         {
             "name": "canaltp/media-manager",
-            "version": "0.0.2",
+            "version": "0.0.3",
             "source": {
                 "type": "git",
                 "url": "http://hg.prod.canaltp.fr/ctp/MediaManager.git",
-                "reference": "0.0.2"
+                "reference": "0.0.3"
             },
             "type": "library",
             "autoload": {
@@ -91,19 +91,19 @@
                 }
             ],
             "description": "Media Manager Component",
-            "time": "2014-04-30 07:53:41"
+            "time": "2014-05-12 09:22:58"
         },
         {
             "name": "canaltp/media-manager-bundle",
-            "version": "0.0.4",
+            "version": "0.0.5",
             "target-dir": "CanalTP/MediaManagerBundle/",
             "source": {
                 "type": "git",
                 "url": "http://hg.prod.canaltp.fr/ctp/MediaManagerBundle.git",
-                "reference": "0.0.4"
+                "reference": "0.0.5"
             },
             "require": {
-                "canaltp/media-manager": "0.0.2"
+                "canaltp/media-manager": "0.0.3"
             },
             "type": "symfony-bundle",
             "autoload": {
@@ -123,7 +123,7 @@
             ],
             "description": "Media Manager Bundle",
             "homepage": "http://hg.prod.canaltp.fr/ctp/MediaManagerBundle.git",
-            "time": "2014-04-30 07:58:32"
+            "time": "2014-05-12 13:47:27"
         },
         {
             "name": "canaltp/mtt-bundle",
@@ -132,11 +132,11 @@
             "source": {
                 "type": "git",
                 "url": "http://hg.prod.canaltp.fr/ctp/SymfonyBundles/CanalTPMttBundle.git",
-                "reference": "edae473e2449bbd8a7ef53a60391ec50a5e9aff5"
+                "reference": "24949b82235b1daf7dff6968cb5c71fc1abeaaad"
             },
             "require": {
                 "braincrafted/bootstrap-bundle": "2.0.0",
-                "canaltp/media-manager-bundle": "0.0.4",
+                "canaltp/media-manager-bundle": "0.0.5",
                 "canaltp/navitia": ">=0.0,<1.0",
                 "components/jquery": "1.11.0",
                 "components/jqueryui": "1.10.3",
@@ -148,6 +148,7 @@
                 "symfony/css-selector": "v2.4.4",
                 "symfony/dom-crawler": "2.4.4",
                 "twbs/bootstrap": "3.1.0",
+                "videlalvaro/php-amqplib": "2.2.6",
                 "willdurand/js-translation-bundle": "2.0.0"
             },
             "type": "symfony-bundle",
@@ -172,7 +173,7 @@
             ],
             "description": "Mtt Bundle",
             "homepage": "http://hg.prod.canaltp.fr/ctp/SymfonyBundles/CanalTPMttBundle/summary",
-            "time": "2014-05-07 07:23:03"
+            "time": "2014-05-12 13:59:30"
         },
         {
             "name": "canaltp/navitia",
@@ -199,7 +200,7 @@
             ],
             "authors": [
                 {
-                    "name": "Johan ROUVE",
+                    "name": "Johan Rouve",
                     "email": "johan.rouve@canaltp.fr"
                 },
                 {
