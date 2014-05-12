@@ -48,10 +48,10 @@ $process_message = function($msg) use ($curlProxy, $pdfHashingLib, $ttMediaBuild
         echo "pdfPath: " . $pdfPath;
         $filepath = $ttMediaBuilder->saveFile(
             $pdfPath,
-            $payload->mediaManagerParams->externalNetworkId,
-            $payload->mediaManagerParams->externalRouteId,
-            $payload->mediaManagerParams->externalStopPointId,
-            $payload->mediaManagerParams->seasonId
+            $payload->timetableParams->externalNetworkId,
+            $payload->timetableParams->externalRouteId,
+            $payload->timetableParams->externalStopPointId,
+            $payload->timetableParams->seasonId
         );
         echo "Generation result :" . $filepath ? $filepath : 'NOK';
         echo "\n--------\n";
