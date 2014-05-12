@@ -23,8 +23,9 @@ function publishMessages($channel, $task_id = 1, $routingKey = 'divia.pdf_gen', 
     $ackQueueName = 'ack_queue.' . $routingKey . '.task_' . $task_id;
     while ($i < $limit) {
         $payload = array(
-            'url' => "http://223.0.0.128/SamApp/web/mtt/timetable/view/networks/network:Filbleu/line/line:TTR:Nav62/route/route:TTR:Nav155/seasons/1/stopPoints/stop_point:TTR:SP:JUSTB-1?" . $i,
             'pdfGeneratorUrl'   => 'http://223.0.0.128/pdfGenerator/web/',
+            'url' => "http://223.0.0.128/SamApp/web/mtt/timetable/view/networks/network:Filbleu/line/line:TTR:Nav62/route/route:TTR:Nav155/seasons/1/stopPoints/stop_point:TTR:SP:JUSTB-1?" . $i,
+            'lineConfigId'      => '123',
             'pdfHash'           => 'unsupermd5deoufpaslisible',
             'cssVersion'        => '1',
             'mediaManagerParams' => array(
