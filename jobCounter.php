@@ -12,9 +12,10 @@ $channel = $connection->channel();
 
 $channel->exchange_declare('pdf_gen_exchange', 'topic', false, true, false);
 
-$ackQueueId = 'ack_queue.divia.pdf_gen.1';
+$ackQueueId = 'pdf_gen_queue';
 while (true) {
     list($queue_name, $jobs, $consumers) = $channel->queue_declare($ackQueueId, false, true, false, false);
     echo "Queue $queue_name has $jobs job(s) and $consumers idle consumer(s)\r\n";
+    print_r($channel->queue_purge($ackQueueId));
     sleep(10);
 }
