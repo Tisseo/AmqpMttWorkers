@@ -38,50 +38,55 @@ $process_message = function($msg) use ($curlProxy, $pdfHashingLib, $ttMediaBuild
     print_r($payload);
     echo "\n--------\n";
     $html = $curlProxy->get($payload->url);
-    $hash = $pdfHashingLib->getPdfHash($html, $payload->cssVersion);
-    echo "pdf hash: " . ($hash);
-    echo "\n--------\n";
-    
-    if ($hash != $payload->pdfHash) {
-        $pdfGenerator = new PdfGenerator($curlProxy, $payload->pdfGeneratorUrl, false);
-        $pdfPath = $pdfGenerator->getPdf($payload->url, $payload->layoutParams->orientation);
-        echo "pdfPath: " . $pdfPath;
-        $filepath = $ttMediaBuilder->saveFile(
-            $pdfPath,
-            $payload->timetableParams->externalNetworkId,
-            $payload->timetableParams->externalRouteId,
-            $payload->timetableParams->externalStopPointId,
-            $payload->timetableParams->seasonId
-        );
-        echo "Generation result :" . $filepath ? $filepath : 'NOK';
+    if (empty($html)) {
+        echo "Got empty response from server, url: " . ($payload->url);
         echo "\n--------\n";
-    }
-    
-    // acknowledgement part
-    // push ack data into expected queue
-    if (isset($filepath)) {
-        $payload->generated = true;
-        $payload->generationResult = new \stdClass;
-        $payload->generationResult->filepath = $filepath;
-        $payload->generationResult->pdfHash = $hash;
-        $payload->generationResult->created = time();
+        $msg->delivery_info['channel']->basic_nack($msg->delivery_info['delivery_tag']);
     } else {
-        $payload->generated = false;
+        $hash = $pdfHashingLib->getPdfHash($html, $payload->cssVersion);
+        echo "pdf hash: " . ($hash);
+        echo "\n--------\n";
+        
+        if ($hash != $payload->pdfHash) {
+            $pdfGenerator = new PdfGenerator($curlProxy, $payload->pdfGeneratorUrl, false);
+            $pdfPath = $pdfGenerator->getPdf($payload->url, $payload->layoutParams->orientation);
+            echo "pdfPath: " . $pdfPath;
+            $filepath = $ttMediaBuilder->saveFile(
+                $pdfPath,
+                $payload->timetableParams->externalNetworkId,
+                $payload->timetableParams->externalRouteId,
+                $payload->timetableParams->externalStopPointId,
+                $payload->timetableParams->seasonId
+            );
+            echo "Generation result :" . $filepath ? $filepath : 'NOK';
+            echo "\n--------\n";
+        }
+        
+        // acknowledgement part
+        // push ack data into expected queue
+        if (isset($filepath)) {
+            $payload->generated = true;
+            $payload->generationResult = new \stdClass;
+            $payload->generationResult->filepath = $filepath;
+            $payload->generationResult->pdfHash = $hash;
+            $payload->generationResult->created = time();
+        } else {
+            $payload->generated = false;
+        }
+        $ackMsg = new AMQPMessage(
+            json_encode($payload),
+            array(
+                'delivery_mode' => 2,
+                'content_type'  => 'application/json'
+            )
+        );
+        // publish to ack queue
+        $msg->delivery_info['channel']->basic_publish($ackMsg, AmqpPdfGenPublisher::EXCHANGE_NAME, $msg->get('reply_to'), true);
+        echo " [x] Sent ",$msg->get('reply_to'),':',print_r($payload, true)," \n";
+        echo "\n--------\n";
+        // acknowledge broker
+        $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
     }
-    $ackMsg = new AMQPMessage(
-        json_encode($payload),
-        array(
-            'delivery_mode' => 2,
-            'content_type'  => 'application/json'
-        )
-    );
-    // publish to ack queue
-    $msg->delivery_info['channel']->basic_publish($ackMsg, AmqpPdfGenPublisher::EXCHANGE_NAME, $msg->get('reply_to'), true);
-    echo " [x] Sent ",$msg->get('reply_to'),':',print_r($payload, true)," \n";
-    echo "\n--------\n";
-    // acknowledge broker
-    $msg->delivery_info['channel']->basic_ack($msg->delivery_info['delivery_tag']);
-
     // sleep(10);
 };
 $channel->basic_qos(null, 1, null);
