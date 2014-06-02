@@ -66,14 +66,14 @@ class TimetableMediaBuilder {
         $category = $this->getCategory($externalNetworkId, $externalRouteId, $externalStopPointId, $seasonId);
         $media = $this->mediaFactory->create($filePath);
         $media->setFileName(MttMediaManager::TIMETABLE_FILENAME);
-        $media->setBaseName(MttMediaManager::TIMETABLE_FILENAME . '.pdf.bak');
+        $media->setBaseName(MttMediaManager::TIMETABLE_FILENAME . '_tmp.pdf');
         $media->setSize(filesize($filePath));
         $media->setPath($filePath);
         $media->setCompany($this->company);
         $media->setCategory($category);
                
         $result = $this->company->addMedia($media);
-        
+
         return $result ? $media->getPath() : false;
     }
 }
