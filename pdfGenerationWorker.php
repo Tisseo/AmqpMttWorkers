@@ -41,7 +41,7 @@ $process_message = function($msg) use ($curlProxy, $pdfHashingLib, $ttMediaBuild
     if (empty($html)) {
         echo "Got empty response from server, url: " . ($payload->url);
         echo "\n--------\n";
-        $msg->delivery_info['channel']->basic_nack($msg->delivery_info['delivery_tag']);
+        $msg->delivery_info['channel']->basic_nack($msg->delivery_info['delivery_tag'], false, true);
     } else {
         $hash = $pdfHashingLib->getPdfHash($html, $payload->cssVersion);
         echo "pdf hash: " . ($hash);
