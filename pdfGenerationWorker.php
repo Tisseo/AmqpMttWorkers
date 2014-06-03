@@ -13,7 +13,7 @@ use CanalTP\MttBundle\Services\PdfHashingLib;
 use CanalTP\MttBundle\Services\PdfGenerator;
 use CanalTP\MttBundle\Services\MediaManager;
 use CanalTP\MttBundle\Services\CurlProxy;
-use CanalTP\MttBundle\Services\AmqpPdfGenPublisher;
+use CanalTP\MttBundle\Services\Amqp\Channel;
 
 //AmqpMttWorkers
 use CanalTP\AMQPMttWorkers\TimetableMediaBuilder;
@@ -21,17 +21,16 @@ use CanalTP\AMQPMttWorkers\TimetableMediaBuilder;
 $curlProxy = new CurlProxy();
 $pdfHashingLib = new PdfHashingLib($curlProxy);
 
-$connection = new AMQPConnection(HOST, PORT, USER, PASS, VHOST);
-$channel = $connection->channel();
+// $connection = new AMQPConnection(HOST, PORT, USER, PASS, VHOST);
+$channelLib = new Channel(HOST, USER, PASS, PORT, VHOST);
+$channel = $channelLib->getChannel();
 
-$channel->exchange_declare(AmqpPdfGenPublisher::EXCHANGE_NAME, 'topic', false, true, false);
-
-list($queue_name, ,) = $channel->queue_declare(AmqpPdfGenPublisher::WORK_QUEUE_NAME, false, true, false, false);
-$channel->queue_bind($queue_name, AmqpPdfGenPublisher::EXCHANGE_NAME, "*.pdf_gen");
+list($queue_name, ,) = $channel->queue_declare($channelLib->getPdfGenQueueName(), false, true, false, false);
+$channel->queue_bind($queue_name, $channelLib->getExchangeName(), "*.pdf_gen");
 
 $ttMediaBuilder = new TimetableMediaBuilder();
 
-$process_message = function($msg) use ($curlProxy, $pdfHashingLib, $ttMediaBuilder)
+$process_message = function($msg) use ($curlProxy, $pdfHashingLib, $ttMediaBuilder, $channelLib)
 {
     $payload = json_decode($msg->body);
     echo "\n--------\n";
@@ -39,7 +38,7 @@ $process_message = function($msg) use ($curlProxy, $pdfHashingLib, $ttMediaBuild
     echo "\n--------\n";
     $html = $curlProxy->get($payload->url);
     if (empty($html)) {
-        echo "Got empty response from server, url: " . ($payload->url);
+        echo "Got empty response $html from server, url: " . ($payload->url);
         echo "\n--------\n";
         $msg->delivery_info['channel']->basic_nack($msg->delivery_info['delivery_tag'], false, true);
     } else {
@@ -81,7 +80,7 @@ $process_message = function($msg) use ($curlProxy, $pdfHashingLib, $ttMediaBuild
             )
         );
         // publish to ack queue
-        $msg->delivery_info['channel']->basic_publish($ackMsg, AmqpPdfGenPublisher::EXCHANGE_NAME, $msg->get('reply_to'), true);
+        $msg->delivery_info['channel']->basic_publish($ackMsg, $channelLib->getExchangeName(), $msg->get('reply_to'), true);
         echo " [x] Sent ",$msg->get('reply_to'),':',print_r($payload, true)," \n";
         echo "\n--------\n";
         // acknowledge broker
@@ -92,12 +91,11 @@ $process_message = function($msg) use ($curlProxy, $pdfHashingLib, $ttMediaBuild
 $channel->basic_qos(null, 1, null);
 $channel->basic_consume($queue_name, 'pdfWorker', false, false, false, false, $process_message);
 
-function shutdown($channel, $connection)
+function shutdown($channelLib)
 {
-    $channel->close();
-    $connection->close();
+    $channelLib->close();
 }
-register_shutdown_function('shutdown', $channel, $connection);
+register_shutdown_function('shutdown', $channelLib);
 
 // Loop as long as the channel has callbacks registered
 while (count($channel->callbacks)) {
