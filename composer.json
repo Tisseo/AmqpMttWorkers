@@ -22,7 +22,7 @@
     "require": {
         "php": ">=5.3.2",
         "videlalvaro/php-amqplib": "2.2.6",
-        "canaltp/mtt-bundle": "dev-feature-METH-166-massive-pdf-generation",
+        "canaltp/mtt-bundle": "dev-ci",
         "canaltp/media-manager": "0.0.3"
     }
 }
