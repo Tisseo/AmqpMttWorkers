@@ -11,11 +11,11 @@ use CanalTP\MediaManager\Category\Factory\CategoryFactory;
 use CanalTP\MttBundle\Services\MediaManager as MttMediaManager;
 
 class TimetableMediaBuilder {
-    
+
     private $config;
     private $company;
     private $mediaFactory;
-    
+
     public function __construct()
     {
         // TODO: retrieve this from yaml configuration inside Mtt (right now it's in SamApp...)
@@ -25,7 +25,7 @@ class TimetableMediaBuilder {
                 'type' => 'filesystem',
                 'path' => '/var/www/SamApp/web/uploads/',
             ),
-            'strategy' => 'mtt'
+            'strategy' => 'CanalTP\MediaManager\Strategy\DefaultStrategy'
         );
         $this->mediaFactory = new MediaFactory();
         $this->company = new Company();
@@ -35,24 +35,24 @@ class TimetableMediaBuilder {
         $this->company->setName($this->config['name']);
 
     }
-    
+
     private function getCategory($externalNetworkId, $externalRouteId, $externalStopPointId, $seasonId)
     {
         $categoryFactory = new CategoryFactory();
         $networkCategory = $categoryFactory->create(CategoryType::NETWORK);
         $networkCategory->setId($externalNetworkId);
         $networkCategory->setRessourceId('networks');
-                
+
         $routeCategory = $categoryFactory->create(CategoryType::LINE);
         $routeCategory->setId($externalRouteId);
         $routeCategory->setRessourceId('routes');
         $routeCategory->setParent($networkCategory);
-        
+
         $stopPointCategory = $categoryFactory->create(CategoryType::LINE);
         $stopPointCategory->setId($externalStopPointId);
         $stopPointCategory->setRessourceId('stop_points');
         $stopPointCategory->setParent($routeCategory);
-        
+
         $seasonCategory = $categoryFactory->create(CategoryType::LINE);
         $seasonCategory->setId($seasonId);
         $seasonCategory->setRessourceId('seasons');
@@ -60,7 +60,7 @@ class TimetableMediaBuilder {
 
         return $seasonCategory;
     }
-    
+
     public function saveFile($filePath, $externalNetworkId, $externalRouteId, $externalStopPointId, $seasonId)
     {
         $category = $this->getCategory($externalNetworkId, $externalRouteId, $externalStopPointId, $seasonId);
@@ -71,7 +71,7 @@ class TimetableMediaBuilder {
         $media->setPath($filePath);
         $media->setCompany($this->company);
         $media->setCategory($category);
-               
+
         $result = $this->company->addMedia($media);
 
         return $result ? $media->getPath() : false;
