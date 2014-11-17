@@ -4,7 +4,7 @@
         "Read more about it at http://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "56dc50c2a9d0a71c11dccaa05a236e78",
+    "hash": "ea98713f6a86537626adb98ad525b5b4",
     "packages": [
         {
             "name": "braincrafted/bootstrap-bundle",
@@ -72,7 +72,7 @@
             "version": "0.0.7",
             "source": {
                 "type": "git",
-                "url": "http://hg.prod.canaltp.fr/ctp/MediaManager.git",
+                "url": "git@github.com:CanalTP/MediaManagerComponent.git",
                 "reference": "71bf9c3c8e75729f69967167d16071828ccd4b0d"
             },
             "type": "library",
@@ -100,7 +100,7 @@
             "target-dir": "CanalTP/MediaManagerBundle/",
             "source": {
                 "type": "git",
-                "url": "http://hg.prod.canaltp.fr/ctp/MediaManagerBundle.git",
+                "url": "git@github.com:CanalTP/MediaManagerBundle.git",
                 "reference": "b3273129e76a75eb8e38c14b2b03707713c89f84"
             },
             "require": {
@@ -132,7 +132,7 @@
             "target-dir": "CanalTP/MttBundle/",
             "source": {
                 "type": "git",
-                "url": "http://hg.prod.canaltp.fr/ctp/SymfonyBundles/CanalTPMttBundle.git",
+                "url": "git@github.com:CanalTP/MttBundle.git",
                 "reference": "d38d665748b2977be348200ce2fbeae4bab7bf2c"
             },
             "require": {
@@ -213,16 +213,16 @@
         },
         {
             "name": "components/bootstrap",
-            "version": "3.3.0",
+            "version": "3.3.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/components/bootstrap.git",
-                "reference": "220ece7325593e23de39d94816dccbc0d4ec12f8"
+                "reference": "c571792e5f6f90541bf7e2ba9c6d64da1d71e06e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/components/bootstrap/zipball/220ece7325593e23de39d94816dccbc0d4ec12f8",
-                "reference": "220ece7325593e23de39d94816dccbc0d4ec12f8",
+                "url": "https://api.github.com/repos/components/bootstrap/zipball/c571792e5f6f90541bf7e2ba9c6d64da1d71e06e",
+                "reference": "c571792e5f6f90541bf7e2ba9c6d64da1d71e06e",
                 "shasum": ""
             },
             "require": {
@@ -276,7 +276,7 @@
                 "responsive",
                 "web"
             ],
-            "time": "2014-10-30 07:22:10"
+            "time": "2014-11-12 19:50:27"
         },
         {
             "name": "components/jquery",
@@ -369,7 +369,7 @@
                     "homepage": "http://jqueryui.com/about"
                 },
                 {
-                    "name": "Jörn Zaefferer",
+                    "name": "Joern Zaefferer",
                     "email": "joern.zaefferer@gmail.com",
                     "homepage": "http://bassistance.de"
                 },
@@ -385,7 +385,7 @@
                 },
                 {
                     "name": "Corey Frang",
-                    "email": "gnarf@gnarf.net",
+                    "email": "gnarf37@gmail.com",
                     "homepage": "http://gnarf.net",
                     "role": "Developer"
                 },
@@ -595,7 +595,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -671,7 +671,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -715,7 +715,7 @@
             ],
             "authors": [
                 {
-                    "name": "Jonathan H. Wage",
+                    "name": "Jonathan Wage",
                     "email": "jonwage@gmail.com",
                     "homepage": "http://www.jwage.com/",
                     "role": "Creator"
@@ -734,9 +734,9 @@
                     "email": "kontakt@beberlei.de"
                 },
                 {
-                    "name": "Johannes M. Schmitt",
+                    "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -790,7 +790,7 @@
                 {
                     "name": "Johannes Schmitt",
                     "email": "schmittjoh@gmail.com",
-                    "homepage": "http://jmsyst.com",
+                    "homepage": "https://github.com/schmittjoh",
                     "role": "Developer of wrapped JMSSerializerBundle"
                 }
             ],
@@ -1269,6 +1269,57 @@
             "description": "Symfony Console Component",
             "homepage": "http://symfony.com",
             "time": "2014-10-05 13:57:04"
+        },
+        {
+            "name": "symfony/css-selector",
+            "version": "v2.5.6",
+            "target-dir": "Symfony/Component/CssSelector",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/CssSelector.git",
+                "reference": "7cdf543a3f31935aae58de4e6e607d4bdeb3f5dc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/CssSelector/zipball/7cdf543a3f31935aae58de4e6e607d4bdeb3f5dc",
+                "reference": "7cdf543a3f31935aae58de4e6e607d4bdeb3f5dc",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.3.3"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "2.5-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Symfony\\Component\\CssSelector\\": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Symfony Community",
+                    "homepage": "http://symfony.com/contributors"
+                },
+                {
+                    "name": "Jean-François Simon",
+                    "email": "jeanfrancois.simon@sensiolabs.com"
+                },
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                }
+            ],
+            "description": "Symfony CssSelector Component",
+            "homepage": "http://symfony.com",
+            "time": "2014-10-09 16:00:03"
         },
         {
             "name": "symfony/debug",
@@ -2721,12 +2772,12 @@
             "version": "v1.16.2",
             "source": {
                 "type": "git",
-                "url": "https://github.com/fabpot/Twig.git",
+                "url": "https://github.com/twigphp/Twig.git",
                 "reference": "42f758d9fe2146d1f0470604fc05ee43580873fc"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fabpot/Twig/zipball/42f758d9fe2146d1f0470604fc05ee43580873fc",
+                "url": "https://api.github.com/repos/twigphp/Twig/zipball/42f758d9fe2146d1f0470604fc05ee43580873fc",
                 "reference": "42f758d9fe2146d1f0470604fc05ee43580873fc",
                 "shasum": ""
             },
