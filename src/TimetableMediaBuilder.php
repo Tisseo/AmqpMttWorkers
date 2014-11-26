@@ -7,7 +7,6 @@ use CanalTP\MediaManager\Company\Configuration\Builder\ConfigurationBuilder;
 use CanalTP\MediaManager\Media\Factory\MediaFactory;
 use CanalTP\MediaManager\Category\CategoryType;
 use CanalTP\MediaManager\Category\Factory\CategoryFactory;
-//Mtt Bundle
 use CanalTP\MttBundle\Services\MediaManager as MttMediaManager;
 
 class TimetableMediaBuilder {
@@ -20,12 +19,12 @@ class TimetableMediaBuilder {
     {
         // TODO: retrieve this from yaml configuration inside Mtt (right now it's in SamApp...)
         $this->config = array(
-            'name' => 'MTT',
+            'name' => MEDIA_NAME,
             'storage' => array(
-                'type' => 'filesystem',
-                'path' => '/var/www/SamApp/web/uploads/',
+                'type' => MEDIA_STORAGE_TYPE,
+                'path' => MEDIA_STORAGE_PATH,
             ),
-            'strategy' => 'CanalTP\MediaManager\Strategy\DefaultStrategy'
+            'strategy' => MEDIA_STRATEGY
         );
         $this->mediaFactory = new MediaFactory();
         $this->company = new Company();

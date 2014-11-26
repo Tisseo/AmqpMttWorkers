@@ -1,2 +1,4 @@
 /vendor/
 /components/
+/logs/
+config.inc.php
