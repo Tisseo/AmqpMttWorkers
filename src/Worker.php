@@ -29,7 +29,16 @@ class Worker
     private $queueName;
     private $nbTries;
 
-    public function __construct($name)
+    private function setVerboseMode($stdOut)
+    {
+        if ($stdOut) {
+            $this->log->pushHandler(new \Monolog\Handler\ErrorLogHandler());
+        } else {
+            $this->log->pushHandler(new StreamHandler(LOG_PATH . '/' . $name . '.log', Logger::INFO));
+        }
+    }
+
+    public function __construct($name, $stdOut)
     {
         $this->curlProxy = new CurlProxy();
         $this->pdfHashingLib = new PdfHashingLib($this->curlProxy);
@@ -37,7 +46,7 @@ class Worker
         $this->mediaBuilder = new TimetableMediaBuilder();
         $this->nbTries = 3;
         $this->log = new Logger('Worker');
-        $this->log->pushHandler(new StreamHandler(LOG_PATH . '/' . $name . '.log', Logger::INFO));
+        $this->setVerboseMode($stdOut);
     }
 
     private function logPayload($payload)

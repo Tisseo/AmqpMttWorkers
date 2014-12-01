@@ -12,7 +12,7 @@ if (!isset($argv[1])) {
     exit(0);
 }
 
-$worker = new Worker($argv[1]);
+$worker = new Worker($argv[1], in_array('--std-out', $argv));
 
 if (isset($argv[2]) && is_int($argv[2])) {
     $worker->setNbTries($argv[2]);
