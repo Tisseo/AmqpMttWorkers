@@ -29,7 +29,7 @@ class Worker
     private $queueName;
     private $nbTries;
 
-    private function setVerboseMode($stdOut)
+    private function setVerboseMode($stdOut, $name)
     {
         if ($stdOut) {
             $this->log->pushHandler(new \Monolog\Handler\ErrorLogHandler());
@@ -46,7 +46,7 @@ class Worker
         $this->mediaBuilder = new TimetableMediaBuilder();
         $this->nbTries = 3;
         $this->log = new Logger('Worker');
-        $this->setVerboseMode($stdOut);
+        $this->setVerboseMode($stdOut, $name);
     }
 
     private function logPayload($payload)
