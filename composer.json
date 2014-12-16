@@ -15,8 +15,12 @@
     ],
     "repositories": [
         {
-            "type": "composer",
-            "url": "packagist.canaltp.fr"
+            "type": "git",
+            "url": "https://github.com/CanalTP/MttBundle.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/CanalTP/MediaManagerComponent.git"
         }
     ],
     "require": {
