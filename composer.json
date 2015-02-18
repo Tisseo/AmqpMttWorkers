@@ -21,13 +21,21 @@
         {
             "type": "git",
             "url": "https://github.com/CanalTP/MediaManagerComponent.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/CanalTP/NavitiaComponent.git"
+        },
+        {
+            "type": "git",
+            "url": "https://github.com/CanalTP/MediaManagerBundle.git"
         }
     ],
     "require": {
         "php": ">=5.3.2",
         "videlalvaro/php-amqplib": "2.2.6",
-        "canaltp/mtt-bundle": "1.6.7",
-        "canaltp/media-manager": "0.0.7",
+        "canaltp/mtt-bundle": "1.6.*@dev",
+        "canaltp/media-manager": "0.0.8",
         "symfony/dom-crawler": "2.5.6",
         "symfony/css-selector": "~2.0",
         "monolog/monolog": "~1.11"
