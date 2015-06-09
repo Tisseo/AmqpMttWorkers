@@ -5,9 +5,8 @@ namespace CanalTP\AMQPMttWorkers;
 use CanalTP\MediaManager\Company\Company;
 use CanalTP\MediaManager\Company\Configuration\Builder\ConfigurationBuilder;
 use CanalTP\MediaManager\Media\Factory\MediaFactory;
-use CanalTP\MediaManager\Category\CategoryType;
-use CanalTP\MediaManager\Category\Factory\CategoryFactory;
-//Mtt Bundle
+use CanalTP\MttBundle\MediaManager\Category\Factory\CategoryFactory;
+use CanalTP\MttBundle\MediaManager\Category\CategoryType;
 use CanalTP\MttBundle\Services\MediaManager as MttMediaManager;
 
 class TimetableMediaBuilder {
@@ -20,16 +19,17 @@ class TimetableMediaBuilder {
     {
         // TODO: retrieve this from yaml configuration inside Mtt (right now it's in SamApp...)
         $this->config = array(
-            'name' => 'MTT',
+            'name' => MEDIA_NAME,
             'storage' => array(
-                'type' => 'filesystem',
-                'path' => '/var/www/SamApp/web/uploads/',
+                'type' => MEDIA_STORAGE_TYPE,
+                'path' => MEDIA_STORAGE_PATH,
             ),
-            'strategy' => 'CanalTP\MediaManager\Strategy\DefaultStrategy'
+            'strategy' => MEDIA_STRATEGY
         );
         $this->mediaFactory = new MediaFactory();
         $this->company = new Company();
         $configurationBuilder = new ConfigurationBuilder();
+        $this->categoryFactory = new CategoryFactory();
 
         $this->company->setConfiguration($configurationBuilder->buildConfiguration($this->config));
         $this->company->setName($this->config['name']);
@@ -38,24 +38,19 @@ class TimetableMediaBuilder {
 
     private function getCategory($externalNetworkId, $externalRouteId, $externalStopPointId, $seasonId)
     {
-        $categoryFactory = new CategoryFactory();
-        $networkCategory = $categoryFactory->create(CategoryType::NETWORK);
+        $networkCategory = $this->categoryFactory->create(CategoryType::NETWORK);
         $networkCategory->setId($externalNetworkId);
-        $networkCategory->setRessourceId('networks');
 
-        $routeCategory = $categoryFactory->create(CategoryType::LINE);
+        $routeCategory = $this->categoryFactory->create(CategoryType::ROUTE);
         $routeCategory->setId($externalRouteId);
-        $routeCategory->setRessourceId('routes');
         $routeCategory->setParent($networkCategory);
 
-        $stopPointCategory = $categoryFactory->create(CategoryType::LINE);
+        $stopPointCategory = $this->categoryFactory->create(CategoryType::STOP_POINT);
         $stopPointCategory->setId($externalStopPointId);
-        $stopPointCategory->setRessourceId('stop_points');
         $stopPointCategory->setParent($routeCategory);
 
-        $seasonCategory = $categoryFactory->create(CategoryType::LINE);
+        $seasonCategory = $this->categoryFactory->create(CategoryType::SEASON);
         $seasonCategory->setId($seasonId);
-        $seasonCategory->setRessourceId('seasons');
         $seasonCategory->setParent($stopPointCategory);
 
         return $seasonCategory;

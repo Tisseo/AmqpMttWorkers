@@ -1,0 +1,17 @@
+<?php
+
+define('HOST', '');
+define('PORT', 5672);
+define('USER', 'guest');
+define('PASS', 'guest');
+define('VHOST', '');
+
+define('MEDIA_NAME', '');
+define('MEDIA_STORAGE_PATH', '');
+define('MEDIA_STORAGE_TYPE', '');
+define('MEDIA_STRATEGY', '');
+
+define('LOG_PATH', '');
+
+//If this is enabled you can see AMQP output on the CLI
+// define('AMQP_DEBUG', true);
