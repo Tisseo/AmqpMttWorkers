@@ -8,9 +8,7 @@ Installation
 -------------
 
 1. Use composer
-$> composer.phar install
-
-2.
+    - $> php composer.phar install
 
 Requirements
 -------------
