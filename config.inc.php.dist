@@ -1,17 +1,17 @@
 <?php
 
-define('HOST', '');
-define('PORT', 5672);
-define('USER', 'guest');
-define('PASS', 'guest');
-define('VHOST', '');
+define('HOST', '{{Host []?|localhost}}');
+define('PORT', {{Port []?|5672}});
+define('USER', '{{User []?|guest}}');
+define('PASS', '{{Password []?|guest}}');
+define('VHOST', '{{Vhost []?|/pdf}}');
 
-define('MEDIA_NAME', '');
-define('MEDIA_STORAGE_PATH', '');
-define('MEDIA_STORAGE_TYPE', '');
-define('MEDIA_STRATEGY', '');
+define('MEDIA_NAME', '{{Media Name []?|disk}}');
+define('MEDIA_STORAGE_PATH', '{{Media storage path []?|}}');
+define('MEDIA_STORAGE_TYPE', '{{Media storage type []?|filesystem}}');
+define('MEDIA_STRATEGY', '{{Media strategy []?|CanalTP\MediaManager\Strategy\DefaultStrategy}}');
 
-define('LOG_PATH', '');
+define('LOG_PATH', '{{Log path []?|/var/log/pdfGenerationWorker.log}}');
 
 //If this is enabled you can see AMQP output on the CLI
 // define('AMQP_DEBUG', true);

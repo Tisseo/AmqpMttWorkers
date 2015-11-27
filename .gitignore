@@ -2,3 +2,4 @@
 /components/
 /logs/
 config.inc.php
+composer.phar
