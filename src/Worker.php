@@ -52,7 +52,7 @@ class Worker
     private function logPayload($payload)
     {
         $str = '[' . $payload->taskId . ']';
-        $str .= ' - ' . $payload->timetableParams->externalStopPointId;
+        $str .= ' - ' . $payload->stopTimetableParams->externalStopPointId;
         if (isset($payload->error) && isset($payload->generated)) {
             $str .= ($payload->generated) ? ' - [GENERATED]' : ' - [NOT GENERATED]';
         } else if (isset($payload->generated)) {
@@ -110,13 +110,13 @@ class Worker
 
                     $filepath = $this->mediaBuilder->saveFile(
                         $pdfPath,
-                        $payload->timetableParams->externalNetworkId,
-                        $payload->timetableParams->externalRouteId,
-                        $payload->timetableParams->externalStopPointId,
-                        $payload->timetableParams->seasonId
+                        $payload->stopTimetableParams->externalNetworkId,
+                        $payload->stopTimetableParams->externalRouteId,
+                        $payload->stopTimetableParams->externalStopPointId,
+                        $payload->stopTimetableParams->seasonId
                     );
 
-                    $this->log->info('[' . $payload->taskId . '] - ' . $payload->timetableParams->externalStopPointId . ' - Pdf generated (' . $pdfPath . ' -> ' . $filepath . ')');
+                    $this->log->info('[' . $payload->taskId . '] - ' . $payload->stopTimetableParams->externalStopPointId . ' - Pdf generated (' . $pdfPath . ' -> ' . $filepath . ')');
                 }
 
                 // acknowledgement part
@@ -142,7 +142,7 @@ class Worker
             $payload->nbTries++;
 
             $str = '[' . $payload->taskId . ']';
-            $str .= ' - ' . $payload->timetableParams->externalStopPointId;
+            $str .= ' - ' . $payload->stopTimetableParams->externalStopPointId;
             $this->log->error($str . ' - Nb Tries: ' . $payload->nbTries . ' - ' . $e->getMessage());
 
             if ($payload->nbTries >= $this->nbTries) {
